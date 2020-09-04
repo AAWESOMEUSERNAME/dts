@@ -11,6 +11,7 @@
 
     <modules>
         <module>dts-application</module>
+        <module>dts-excel</module>
     </modules>
 
 
