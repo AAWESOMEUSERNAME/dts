@@ -6,11 +6,31 @@ import com.gugu.dts.playlist.api.`object`.IPlayList
 import com.gugu.dts.playlist.api.`object`.IRule
 
 class Rule(
-        override val filters: List<IFilter>,
+        override val filters: List<Pair<Int, IFilter>>,
         override val repeatable: Boolean,
         override val totalNeeded: Int
 ) : IRule {
     override fun generatePlayList(library: IMusicLibrary): IPlayList {
-        TODO("Not yet implemented")
+        val results = filters.map { it.first to it.second.filter(library.songs).toMutableList() }
+        val playList = PlayList()
+
+        var totalCount = 0
+        var filterCursor = 0
+        while (totalCount < totalNeeded) {
+            val num = results[filterCursor].first
+            val candidates = results[filterCursor].second
+
+            repeat(num) {
+                if (candidates.size > 0) {
+                    val song = candidates.random()
+                    playList.add(song)
+                    candidates.remove(song)
+                }
+            }
+            totalCount += num
+            filterCursor = if (filterCursor < results.size) filterCursor + 1 else 0
+        }
+        return playList
     }
+
 }

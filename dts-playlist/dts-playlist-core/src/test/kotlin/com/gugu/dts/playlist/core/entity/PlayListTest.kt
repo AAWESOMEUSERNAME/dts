@@ -7,15 +7,7 @@ import kotlin.test.assertTrue
 
 internal class PlayListTest {
 
-    var playList: PlayList = PlayList(
-            mutableListOf(
-                    Song(
-                            name = "test.mp3",
-                            path = "D:/test.mp3"
-                    )
-            )
-    )
-
+    lateinit var playList: PlayList
 
 //    companion object {
 //        @BeforeAll
@@ -27,7 +19,19 @@ internal class PlayListTest {
 
     @BeforeEach
     fun init() {
-        println("test")
+        playList = PlayList(
+                mutableListOf(
+                        Song(
+                                name = "Hop Skip And Jump.mp3",
+                                path = "D:\\Data\\music\\09-05. Hop Skip And Jump.mp3"
+                        ),
+                        Song(
+                                name = "Come Fly with Me.mp3",
+                                path = "D:\\Data\\CloudMusic\\Frank Sinatra - Come Fly with Me.mp3"
+                        )
+                )
+        )
+
 
     }
 
@@ -41,5 +45,12 @@ internal class PlayListTest {
     fun toFile() {
         val file = playList.toFile()
         assertNotNull(file)
+    }
+
+    @Test
+    fun toFileWithPath() {
+        val file = playList.toFile("D:/test.m3u")
+        assertNotNull(file)
+        file.delete()
     }
 }
