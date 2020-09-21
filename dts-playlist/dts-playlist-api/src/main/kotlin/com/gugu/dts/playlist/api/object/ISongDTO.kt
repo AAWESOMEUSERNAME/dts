@@ -1,8 +1,7 @@
 package com.gugu.dts.playlist.api.`object`
 
-interface ISong {
+interface ISongDTO {
     val name: String
     val path: String
-    val usedTimes: Int
     val bpm: Double
 }
