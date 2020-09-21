@@ -20,15 +20,19 @@ class Rule(
             val num = results[filterCursor].first
             val candidates = results[filterCursor].second
 
+            if (candidates.size < num) {
+                break
+            }
+
             repeat(num) {
-                if (candidates.size > 0) {
+                if (candidates.size > 0 && totalCount < totalNeeded) {
                     val song = candidates.random()
                     playList.add(song)
                     candidates.remove(song)
+                    totalCount++
                 }
             }
-            totalCount += num
-            filterCursor = if (filterCursor < results.size) filterCursor + 1 else 0
+            filterCursor = if (filterCursor < results.size - 1) filterCursor + 1 else 0
         }
         return playList
     }

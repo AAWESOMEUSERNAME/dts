@@ -9,7 +9,7 @@ class Filter(
 ) : IFilter {
     override fun filter(songs: List<ISong>): List<ISong> {
         return songs.filter {
-            it.bpm.compareTo(startBpm) > 0 && it.bpm.compareTo(endBpm) < 0
+            it.bpm.compareTo(startBpm) >= 0 && it.bpm.compareTo(endBpm) < 0
         }
     }
 }

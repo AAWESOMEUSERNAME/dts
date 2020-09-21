@@ -45,4 +45,10 @@ class PlayList() : IPlayList {
         }
         return file
     }
+
+    override fun toString(): String {
+        return "PlayList(songs=$songs)"
+    }
+
+
 }
