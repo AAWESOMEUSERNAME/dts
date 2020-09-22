@@ -5,6 +5,6 @@ import com.gugu.dts.playlist.core.entity.MusicLibrary
 
 interface MusicLibraryRepository {
     fun import(library: IMusicLibraryDTO): MusicLibrary
-    fun fetchLibraryByName(name: String): MusicLibrary
+    fun fetchLibraryByName(name: String): MusicLibrary?
     fun list(): List<MusicLibrary>
 }

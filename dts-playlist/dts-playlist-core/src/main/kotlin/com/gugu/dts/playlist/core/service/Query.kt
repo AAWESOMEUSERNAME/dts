@@ -6,7 +6,7 @@ import com.gugu.dts.playlist.core.repository.MusicLibraryRepository
 
 class Query(private val libraryRepo: MusicLibraryRepository) : IQuery {
 
-    override fun fetchLibraryByName(name: String): IMusicLibrary {
+    override fun fetchLibraryByName(name: String): IMusicLibrary? {
         return libraryRepo.fetchLibraryByName(name)
     }
 

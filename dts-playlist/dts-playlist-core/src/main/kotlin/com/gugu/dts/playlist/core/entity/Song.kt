@@ -6,7 +6,8 @@ class Song(
         override val name: String,
         override val path: String,
         override val usedTimes: Int = 0,
-        override val bpm: Double = 0.0
+        override val bpm: Double? = null,
+        override val id: Int? = null
 ) : ISong {
 
 

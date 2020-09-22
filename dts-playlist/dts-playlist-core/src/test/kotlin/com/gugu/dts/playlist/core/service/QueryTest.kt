@@ -39,8 +39,8 @@ internal class QueryTest {
     fun fetchLibraryByName() {
         val lib = query.fetchLibraryByName("test")
 
-        assertEquals("test", lib.name)
-        assertEquals("D:/test", lib.path)
+        assertEquals("test", lib?.name)
+        assertEquals("D:/test", lib?.path)
     }
 
     @Test

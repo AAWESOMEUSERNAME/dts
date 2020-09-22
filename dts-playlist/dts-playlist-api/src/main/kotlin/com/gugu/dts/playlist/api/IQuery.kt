@@ -3,6 +3,6 @@ package com.gugu.dts.playlist.api
 import com.gugu.dts.playlist.api.`object`.IMusicLibrary
 
 interface IQuery {
-    fun fetchLibraryByName(name: String): IMusicLibrary
+    fun fetchLibraryByName(name: String): IMusicLibrary?
     fun listLibrary(): List<IMusicLibrary>
 }
