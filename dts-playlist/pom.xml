@@ -11,11 +11,20 @@
 
     <properties>
         <sqlite.version>3.8.9.1</sqlite.version>
+        <mybatis.version>2.1.3</mybatis.version>
     </properties>
 
 
     <artifactId>dts-playlist</artifactId>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>dts-playlist-api</module>
+        <module>dts-playlist-core</module>
+        <module>dts-playlist-inf-sqlite</module>
+        <module>dts-playlist-starter</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -23,7 +32,11 @@
                 <artifactId>sqlite-jdbc</artifactId>
                 <version>${sqlite.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
 
             <!-- dts modules -->
             <dependency>
@@ -38,17 +51,12 @@
             </dependency>
             <dependency>
                 <groupId>com.gugu</groupId>
-                <artifactId>dts-playlist-inf-file</artifactId>
+                <artifactId>dts-playlist-inf-sqlite</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <modules>
-        <module>dts-playlist-core</module>
-        <module>dts-playlist-api</module>
-        <module>dts-playlist-inf-file</module>
-    </modules>
 
 
 </project>

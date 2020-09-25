@@ -1,5 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:sqlite:D:\Repository\git\dts\dts-playlist\dts-playlist-inf-file\src\main\resources\db\dts-playlist.db
-    username: ""
-    password: ""
