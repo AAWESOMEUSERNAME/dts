@@ -26,11 +26,11 @@ internal class MusicLibraryRepositoryImplTest {
 
     @Test
     fun list() {
+        libraryRepo.list()
     }
 
     @Test
     fun import() {
-
     }
 
 }

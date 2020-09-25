@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.gugu</groupId>
-            <artifactId>dts-playlist-inf-sqlite</artifactId>
+            <artifactId>dts-playlist-inf</artifactId>
         </dependency>
         <dependency>
             <groupId>com.gugu</groupId>

@@ -21,8 +21,9 @@
     <modules>
         <module>dts-playlist-api</module>
         <module>dts-playlist-core</module>
-        <module>dts-playlist-inf-sqlite</module>
+        <module>dts-playlist-inf</module>
         <module>dts-playlist-starter</module>
+        <module>dts-playlist-ui</module>
     </modules>
 
     <dependencyManagement>
@@ -51,7 +52,7 @@
             </dependency>
             <dependency>
                 <groupId>com.gugu</groupId>
-                <artifactId>dts-playlist-inf-sqlite</artifactId>
+                <artifactId>dts-playlist-inf</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
