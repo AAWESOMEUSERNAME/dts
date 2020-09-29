@@ -30,6 +30,10 @@
     <profiles>
         <profile>
             <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <jdk>1.8</jdk>
+            </activation>
             <repositories>
                 <repository>
                     <id>spring-milestone</id>
@@ -56,6 +60,11 @@
                     <layout>default</layout>
                 </repository>
             </repositories>
+            <properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+                <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+            </properties>
         </profile>
     </profiles>
     <!-- activations是profile的关键，就像POM中的profiles，profile的能力在于它在特定情况下可以修改一些值。

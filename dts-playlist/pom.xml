@@ -55,6 +55,11 @@
                 <artifactId>dts-playlist-inf</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.gugu</groupId>
+                <artifactId>dts-playlist-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
