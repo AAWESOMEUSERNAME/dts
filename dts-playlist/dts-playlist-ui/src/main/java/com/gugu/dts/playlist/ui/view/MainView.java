@@ -1,4 +1,4 @@
-package com.gugu.dts.playlist.ui;
+package com.gugu.dts.playlist.ui.view;
 
 import de.felixroske.jfxsupport.AbstractFxmlView;
 import de.felixroske.jfxsupport.FXMLView;

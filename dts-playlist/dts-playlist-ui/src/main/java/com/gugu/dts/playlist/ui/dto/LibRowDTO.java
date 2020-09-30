@@ -22,7 +22,7 @@ public class LibRowDTO {
     public LibRowDTO() {
     }
 
-    public LibRowDTO(long id, String importTime, String path, String name) {
+    public LibRowDTO(Integer id, String importTime, String path, String name) {
         this.id = new SimpleLongProperty(id);
         this.importTime = new SimpleStringProperty(importTime);
         this.path = new SimpleStringProperty(path);

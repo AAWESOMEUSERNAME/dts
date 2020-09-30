@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/8" fx:controller="com.gugu.dts.playlist.ui.controller.Controller">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/8" fx:controller="com.gugu.dts.playlist.ui.controller.MainController">
    <top>
       <Pane prefHeight="22.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
    </top>
@@ -65,7 +65,8 @@
             <GridPane prefHeight="65.0" prefWidth="613.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="302.0" minWidth="10.0" prefWidth="289.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="324.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="309.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="123.0" />
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -73,7 +74,8 @@
               </rowConstraints>
                <children>
                   <Label text="已经导入的音乐库" GridPane.rowIndex="1" />
-                  <Button fx:id="btn_import" mnemonicParsing="false" onMouseClicked="#importLib" text="导入音乐库" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="btn_import" mnemonicParsing="false" onMouseClicked="#importLib" text="导入音乐库" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onMouseClicked="#deleteLib" text="删除" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <ScrollPane prefHeight="253.0" prefViewportHeight="288.0" prefViewportWidth="613.0" prefWidth="615.0">

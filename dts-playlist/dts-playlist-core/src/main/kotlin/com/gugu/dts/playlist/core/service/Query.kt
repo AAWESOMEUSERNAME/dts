@@ -13,4 +13,8 @@ class Query(private val libraryRepo: MusicLibraryRepository) : IQuery {
     override fun listLibrary(): List<IMusicLibrary> {
         return libraryRepo.list()
     }
+
+    override fun fetchLibraryById(id: Long): IMusicLibrary? {
+        return libraryRepo.find(id)
+    }
 }

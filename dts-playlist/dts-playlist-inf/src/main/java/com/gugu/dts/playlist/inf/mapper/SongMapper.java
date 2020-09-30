@@ -44,6 +44,7 @@ public interface SongMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     @InsertProvider(type = SongSqlProvider.class, method = "insertSelective")
+    @SelectKey(statement = "SELECT last_insert_rowid()", keyProperty = "id", before = false, resultType = int.class)
     int insertSelective(Song record);
 
     /**
@@ -103,4 +104,10 @@ public interface SongMapper {
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Song record);
+
+    @Delete({
+            "delete from song",
+            "where library_id = #{id,jdbcType=INTEGER}"
+    })
+    void deleteByLibId(Integer id);
 }

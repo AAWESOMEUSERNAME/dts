@@ -1,25 +1,37 @@
 package com.gugu.dts.playlist.ui.controller;
 
+import com.gugu.dts.playlist.api.object.IFilterDTO;
+import com.gugu.dts.playlist.api.object.IRuleDTO;
 import com.gugu.dts.playlist.ui.dto.FilterRowDTO;
 import com.gugu.dts.playlist.ui.dto.LibRowDTO;
 import com.gugu.dts.playlist.ui.usecase.MusicLibUsecase;
+import com.gugu.dts.playlist.ui.utils.AlertUtil;
+import com.gugu.dts.playlist.ui.view.ChooseLibDirView;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import kotlin.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport.getStage;
 
@@ -29,21 +41,19 @@ import static de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport.getStage
  * @date 2020/9/28
  */
 @FXMLController
-public class Controller implements Initializable {
+public class MainController implements Initializable {
 
     private Stage rootStage;
+    private Stage chooseDirStage;
     private MusicLibUsecase musicLibUsecase;
+    private ChooseLibDirView chooseLibDirView;
+
     @FXML
     private TextField in_totalNum;
     @FXML
     private Label lab_currentLib;
-    private long currentLibId;
-    @FXML
-    private Button btn_generate;
-    @FXML
-    private Button btn_import;
-    @FXML
-    private Button btn_addFilter;
+    private Long currentLibId;
+
     @FXML
     private TableView<LibRowDTO> table_musicLib;
     @FXML
@@ -62,13 +72,66 @@ public class Controller implements Initializable {
     private TableColumn<FilterRowDTO, Double> col_filter_bpmMax;
     @FXML
     private TableColumn<FilterRowDTO, Integer> col_filter_songNum;
-    public Controller(MusicLibUsecase musicLibUsecase) {
+
+    public MainController(MusicLibUsecase musicLibUsecase, ChooseLibDirView chooseLibDirView) {
         this.musicLibUsecase = musicLibUsecase;
+        this.chooseLibDirView = chooseLibDirView;
     }
 
     @FXML
     void generatePlaylist(MouseEvent event) {
+        ObservableList<FilterRowDTO> filters = table_filter.getItems();
 
+        if (filters.size() == 0) {
+            AlertUtil.warn("至少需要添加一个筛选器");
+            return;
+        }
+        if (currentLibId == null) {
+            AlertUtil.warn("请选择一个音乐库");
+            return;
+        }
+
+
+        List<Pair<Integer, IFilterDTO>> filterDtos = filters.stream().<Pair<Integer, IFilterDTO>>map(row -> new Pair<>(row.getSongNum(), new IFilterDTO() {
+            @Override
+            public double getStartBpm() {
+                return row.getBpmMin();
+            }
+
+            @Override
+            public double getEndBpm() {
+                return row.getBpmMax();
+            }
+        })).collect(Collectors.toList());
+        IRuleDTO ruleDTO = new IRuleDTO() {
+            @NotNull
+            @Override
+            public List<Pair<Integer, IFilterDTO>> getFilters() {
+                return filterDtos;
+            }
+
+            @Override
+            public boolean getRepeatable() {
+                return false;
+            }
+
+            @Override
+            public int getTotalNeeded() {
+                return Integer.parseInt(in_totalNum.getText());
+            }
+        };
+
+        File file = musicLibUsecase.generatePlayList(currentLibId, ruleDTO);
+        AlertUtil.success("文件生成成功！路径：" + file.getAbsolutePath());
+    }
+
+    @FXML
+    void deleteLib(MouseEvent event) {
+        boolean comfirm = AlertUtil.comfirm("确认删除这个音乐库么？");
+        if (comfirm) {
+            musicLibUsecase.deleteLib(currentLibId);
+            initTableData();
+        }
     }
 
     @FXML
@@ -78,9 +141,10 @@ public class Controller implements Initializable {
 
     @FXML
     void importLib(MouseEvent event) {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(rootStage);
-        musicLibUsecase.importLib(selectedDirectory);
+        if (chooseDirStage.isShowing()) {
+            return;
+        }
+        chooseDirStage.showAndWait();
         initTableData();
     }
 
@@ -91,6 +155,12 @@ public class Controller implements Initializable {
         initTableData();
         initTableListener();
         makeTableEditable();
+
+        Parent view = chooseLibDirView.getView();
+        Scene scene = new Scene(view);
+        chooseDirStage = new Stage();
+        chooseDirStage.initOwner(rootStage);
+        chooseDirStage.setScene(scene);
     }
 
     private void initTableListener() {
@@ -109,21 +179,39 @@ public class Controller implements Initializable {
         table_filter.getSelectionModel().cellSelectionEnabledProperty().set(true);
         col_filter_bpmMin.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleToStringConverter()));
         col_filter_bpmMin.setOnEditCommit(event -> {
+            Double newValue = event.getNewValue();
+            if(newValue < 0){
+                AlertUtil.warn("bpm的值应该大于0");
+                return;
+            }
+
             (event.getTableView().getItems().get(
                     event.getTablePosition().getRow())
-            ).setBpmMin(event.getNewValue());
+            ).setBpmMin(newValue);
         });
         col_filter_bpmMax.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleToStringConverter()));
         col_filter_bpmMax.setOnEditCommit(event -> {
+            Double newValue = event.getNewValue();
+            if(newValue < 0){
+                AlertUtil.warn("bpm的值应该大于0");
+                return;
+            }
+
             (event.getTableView().getItems().get(
                     event.getTablePosition().getRow())
-            ).setBpmMax(event.getNewValue());
+            ).setBpmMax(newValue);
         });
         col_filter_songNum.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerToStringConverter()));
         col_filter_songNum.setOnEditCommit(event -> {
+            Integer newValue = event.getNewValue();
+            if(newValue < 0){
+                AlertUtil.warn("歌曲数值应该大于0");
+                return;
+            }
+
             (event.getTableView().getItems().get(
                     event.getTablePosition().getRow())
-            ).setSongNum(event.getNewValue());
+            ).setSongNum(newValue);
         });
     }
 

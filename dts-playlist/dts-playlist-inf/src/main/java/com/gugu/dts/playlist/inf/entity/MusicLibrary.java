@@ -19,6 +19,11 @@ public class MusicLibrary {
      */
     private String path;
 
+    /**
+     * Column: create_at
+     */
+    private String createAt;
+
     public Integer getId() {
         return id;
     }
@@ -32,7 +37,7 @@ public class MusicLibrary {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getPath() {
@@ -40,6 +45,14 @@ public class MusicLibrary {
     }
 
     public void setPath(String path) {
-        this.path = path == null ? null : path.trim();
+        this.path = path;
+    }
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
     }
 }

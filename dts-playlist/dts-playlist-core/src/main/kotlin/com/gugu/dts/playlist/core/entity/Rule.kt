@@ -20,7 +20,7 @@ class Rule(
             val num = results[filterCursor].first
             val candidates = results[filterCursor].second
 
-            if (candidates.size < num) {
+            if (candidates.size < num || num == 0) {
                 break
             }
 

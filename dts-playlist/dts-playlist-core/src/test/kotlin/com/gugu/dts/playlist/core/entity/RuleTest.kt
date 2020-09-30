@@ -2,6 +2,7 @@ package com.gugu.dts.playlist.core.entity
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.*
 
 internal class RuleTest {
 
@@ -15,7 +16,7 @@ internal class RuleTest {
             Song("test7.mp3", "D:/test7.mp3", bpm = 160.0),
             Song("test8.mp3", "D:/test8.mp3", bpm = 170.0),
             Song("test9.mp3", "D:/test9.mp3", bpm = 180.0)
-    ))
+    ), createAt = Date())
 
 
     @Test

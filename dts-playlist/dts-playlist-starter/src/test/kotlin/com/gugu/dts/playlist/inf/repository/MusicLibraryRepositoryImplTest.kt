@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
+import java.text.SimpleDateFormat
 
 @SpringBootTest(classes = [TestApplication::class])
 @Transactional(rollbackFor = [Throwable::class])
@@ -26,7 +27,10 @@ internal class MusicLibraryRepositoryImplTest {
 
     @Test
     fun list() {
-        libraryRepo.list()
+        val list = libraryRepo.list()
+
+        val format = SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(list[0].createAt)
+        println(format)
     }
 
     @Test
