@@ -12,7 +12,6 @@
     <modules>
         <module>dts-application</module>
         <module>dts-excel</module>
-        <module>dts-playlist</module>
     </modules>
 
 
